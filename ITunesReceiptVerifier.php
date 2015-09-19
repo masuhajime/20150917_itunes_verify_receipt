@@ -38,7 +38,7 @@ class ITunesReceiptVerifier
             case ITunesReceiptVerifyResult::STATUS_INVALID_KEY:
             case ITunesReceiptVerifyResult::STATUS_SERVER_MAINTENANCE:
             case ITunesReceiptVerifyResult::STATUS_EXPIRED:
-                // 復帰が難しい例外
+                // ���A�������O
                 throw new ITunesReceiptVerifyException("iTunes receipt verify failed", $verifyResult->getStatus(), $verifyResult);
                 break;
             case ITunesReceiptVerifyResult::STATUS_REDIRECT_TO_PRODUCTION:
@@ -47,7 +47,7 @@ class ITunesReceiptVerifier
                 }
                 return $this->verifyWithClient(
                     $this->createClient(ITunesReceiptVerifier::ENVIRONMENT_PRODUCTION, $client->getReceipt()),
-                    false // 2度目は環境解決しない
+                    false // 2�x�ڂ͊��������Ȃ�
                 );
                 break;
             case ITunesReceiptVerifyResult::STATUS_REDIRECT_TO_SANDBOX:
@@ -56,17 +56,17 @@ class ITunesReceiptVerifier
                 }
                 return $this->verifyWithClient(
                     $this->createClient(ITunesReceiptVerifier::ENVIRONMENT_SANDBOX, $client->getReceipt()),
-                    false // 2度目は環境解決しない
+                    false // 2�x�ڂ͊��������Ȃ�
                 );
                 break;
         }
-        // ここにはこないハズなので来たら例外投げる
+        // �����ɂ͂��Ȃ��n�Y�Ȃ̂ŗ������O������
         throw new ITunesReceiptVerifyException("Unexpected error", $verifyResult->getStatus(), $verifyResult);
     }
 
     /**
-     * 利用する環境の設定
-     * 環境を変更すると最初に問い合わせる環境が変わる
+     * ���p������̐ݒ�
+     * ����ύX����ƍŏ��ɖ₢���킹������ς��
      * @param int $enviroment self::{ENVIRONMENT_SANDBOX, ENVIRONMENT_PRODUCTION}
      */
     public function setEnviroment($enviroment)
@@ -75,7 +75,7 @@ class ITunesReceiptVerifier
     }
 
     /**
-     * 最初に問い合わせる verifyReceipt 環境を設定済みで返す
+     * �ŏ��ɖ₢���킹�� verifyReceipt ����ݒ�ς݂ŕԂ�
      * @return ITunesReceiptVerifyCurlClient
      */
     private function getBeginningEndpointClient($receipt)
@@ -150,14 +150,14 @@ class ITunesReceiptVerifyCurlClient
 class ITunesReceiptVerifyResult
 {
     const STATUS_SUCCESS                = 0;
-    const STATUS_INVALID_JSON           = 21000; // App Storeは、提供したJSONオブジェクトを読むことができません。
-    const STATUS_INVALID_RECEIPT        = 21002; // receipt-dataプロパティのデータが不正であるか、または欠落しています。
-    const STATUS_ERROR_VERIFY           = 21003; // レシートを認証できません。
-    const STATUS_INVALID_KEY            = 21004; // この共有秘密鍵は、アカウントのファイルに保存された共有秘密鍵と一致しません。
-    const STATUS_SERVER_MAINTENANCE     = 21005; // レシートサーバは現在利用できません。
-    const STATUS_EXPIRED                = 21006; // このレシートは有効ですが、定期購読の期限が切れています。
-    const STATUS_REDIRECT_TO_SANDBOX    = 21007; // テスト環境のレシートを、実稼働環境に送信して検証しようとしました。これはテスト環境に送信してください。
-    const STATUS_REDIRECT_TO_PRODUCTION = 21008; // 実稼働環境のレシートを、テスト環境に送信して検証しようとしました。これは実稼働環境に送信してください。
+    const STATUS_INVALID_JSON           = 21000; // App Store�́A�񋟂���JSON�I�u�W�F�N�g��ǂނ��Ƃ��ł��܂���B
+    const STATUS_INVALID_RECEIPT        = 21002; // receipt-data�v���p�e�B�̃f�[�^���s���ł��邩�A�܂��͌������Ă��܂��B
+    const STATUS_ERROR_VERIFY           = 21003; // ���V�[�g��F�؂ł��܂���B
+    const STATUS_INVALID_KEY            = 21004; // ���̋��L�閧���́A�A�J�E���g�̃t�@�C���ɕۑ����ꂽ���L�閧���ƈ�v���܂���B
+    const STATUS_SERVER_MAINTENANCE     = 21005; // ���V�[�g�T�[�o�͌��ݗ��p�ł��܂���B
+    const STATUS_EXPIRED                = 21006; // ���̃��V�[�g�͗L���ł����A����w�ǂ̊������؂�Ă��܂��B
+    const STATUS_REDIRECT_TO_SANDBOX    = 21007; // �e�X�g���̃��V�[�g���A���ғ����ɑ��M���Č��؂��悤�Ƃ��܂����B����̓e�X�g���ɑ��M���Ă��������B
+    const STATUS_REDIRECT_TO_PRODUCTION = 21008; // ���ғ����̃��V�[�g���A�e�X�g���ɑ��M���Č��؂��悤�Ƃ��܂����B����͎��ғ����ɑ��M���Ă��������B
 
     private $body;
     private $data;

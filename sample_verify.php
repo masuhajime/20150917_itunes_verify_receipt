@@ -8,7 +8,8 @@ $receipt = file_get_contents(dirname(__FILE__).'/receipt');
 
 try {
     $verifier = new ITunesReceiptVerifier();
-    $verifier->setEnviroment(ITunesReceiptVerifier::ENVIRONMENT_PRODUCTION);
+    //$verifier->setEnviroment(ITunesReceiptVerifier::ENVIRONMENT_PRODUCTION);
+    $verifier->setEnviroment(ITunesReceiptVerifier::ENVIRONMENT_SANDBOX);
     $verifyResult = $verifier->verify($receipt);
     
     echo "http status code:".$verifyResult->getHttpStatusCode().PHP_EOL;
